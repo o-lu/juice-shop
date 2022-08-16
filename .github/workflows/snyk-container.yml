@@ -18,9 +18,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm i
-      - run: snyk auth
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}   
+      - run: snyk auth ${{ secrets.SNYK_TOKEN }}   
       - name: Snyk Test
         uses: snyk/actions/setup@master
       - run: snyk test --sarif-file-output=snyk-sarif.json
