@@ -12,7 +12,12 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - run: npm install 
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+            node-version: ${{ matrix.node-version }}
+      - run: npm i
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
