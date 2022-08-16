@@ -12,15 +12,13 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true 
+      - name: Snyk Test
+        uses: snyk/actions/setup@master
+      - run: snyk test --sarif-file-output=snyk-sarif.json
+        continue-on-error: true       
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}    
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v1
         with:
-          args: --sarif-file-output=snyk.sarif
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+         sarif_file: snyk-sarif.json
