@@ -17,6 +17,10 @@ jobs:
         uses: snyk/actions/node@master
         continue-on-error: true 
         env:
-          SNYK_TOKEN: ${6f9f25c5-761a-4c78-85d2-41c0739b220e }
+          SNYK_TOKEN: ${{ 6f9f25c5-761a-4c78-85d2-41c0739b220e }}
         with:
           args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
